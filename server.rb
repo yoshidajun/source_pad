@@ -7,6 +7,18 @@ get '/' do
 end
 
 post '/' do
+  uri = URI.parse('http://localhost:8081/code')
+  http = Net::HTTP.new(uri.host, uri.port)
+  request = Net::HTTP::Post.new(uri.path)
+  request.set_form_data(params)
+  response = http.request(request).body
+
+  content_type :json
+  response
+end
+
+post '/code' do
+  pp params
   res =
       case params[:lang]
         when 'ruby'
